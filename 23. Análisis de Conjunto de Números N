@@ -1,0 +1,105 @@
+# 23. Análisis de Conjunto de Números N respecto a X
+def analizar_conjunto_numeros():
+    print('--- Análisis de N Números vs. X ---')
+
+    # --- Tipificación de Variables ---
+    # n_cantidad: int - Cantidad total de números a ingresar.
+    # x_valor: float - Número de referencia X.
+    # num_ingresado: float - Cada número ingresado por el usuario.
+    # count_menor_x: int - Contador de números menores que X.
+    # count_mayor_x: int - Contador de números mayores que X.
+    # count_igual_x: int - Contador de números iguales a X.
+    # count_entre_1_x: int - Contador de números entre 1 y X (inclusive).
+    # count_fuera_rango_1_x: int - Contador de números que NO están entre 1 y X.
+    # i: int - Variable de control del bucle.
+    # rango_min: float - El menor valor entre 1 y X, para definir el rango.
+    # rango_max: float - El mayor valor entre 1 y X, para definir el rango.
+    # porcentaje_menor_x: float - Porcentaje de números menores que X.
+    # porcentaje_mayor_x: float - Porcentaje de números mayores que X.
+    # porcentaje_igual_x: float - Porcentaje de números iguales a X.
+    # porcentaje_entre_1_x: float - Porcentaje de números entre 1 y X.
+    # porcentaje_no_condicion: float - Porcentaje de números que no están entre 1 y X.
+
+    # 1. Solicitar N (cantidad de números)
+    while True:
+        try:
+            n_cantidad: int = int(input('Ingrese la cantidad de números (N) a analizar: '))
+            if n_cantidad > 0:
+                break
+            else:
+                print('Error: N debe ser un número entero positivo.')
+        except ValueError:
+            print('Error: Entrada no válida. Por favor, ingrese un número entero.')
+
+    # 2. Solicitar X (número de referencia)
+    while True:
+        try:
+            x_valor: float = float(input('Ingrese el número de referencia (X): '))
+            break
+        except ValueError:
+            print('Error: Entrada no válida. Por favor, ingrese un número.')
+
+    # Inicializar contadores
+    count_menor_x: int = 0
+    count_mayor_x: int = 0
+    count_igual_x: int = 0
+    count_entre_1_x: int = 0
+    count_fuera_rango_1_x: int = 0 # Para la 5ta condición: no cumple (num está entre 1 y X)
+
+    # Determinar los límites del rango [1, X] de manera flexible
+    # Esto asegura que el rango siempre sea válido, independientemente si X < 1 o X > 1
+    rango_min = min(1.0, x_valor) # Usamos 1.0 para asegurar consistencia de tipo
+    rango_max = max(1.0, x_valor)
+
+    # 3. Pedir N números y clasificarlos
+    for i in range(1, n_cantidad + 1):
+        while True:
+            try:
+                num_ingresado: float = float(input(f'Ingrese el número {i} de {n_cantidad}: '))
+                break
+            except ValueError:
+                print('Error: Entrada no válida. Por favor, ingrese un número.')
+
+        # Clasificación para < X, > X, == X
+        if num_ingresado < x_valor:
+            count_menor_x += 1
+        elif num_ingresado > x_valor:
+            count_mayor_x += 1
+        else: # num_ingresado == x_valor
+            count_igual_x += 1
+
+        # Condición para "entre 1 y X" (inclusive, manejando X < 1)
+        if num_ingresado >= rango_min and num_ingresado <= rango_max:
+            count_entre_1_x += 1
+        else:
+            # Números que NO están en el rango [1, X]
+            count_fuera_rango_1_x += 1
+
+    # Calcular porcentajes
+    if n_cantidad > 0:
+        porcentaje_menor_x: float = (count_menor_x / n_cantidad) * 100
+        porcentaje_mayor_x: float = (count_mayor_x / n_cantidad) * 100
+        porcentaje_igual_x: float = (count_igual_x / n_cantidad) * 100
+        porcentaje_entre_1_x: float = (count_entre_1_x / n_cantidad) * 100
+        # La quinta condición: "Porcentaje de números que no cumple ninguna condición."
+        # Interpretado como: Porcentaje de números que no están en el rango [1, X].
+        # Este es el complemento directo de 'porcentaje_entre_1_x'.
+        porcentaje_no_condicion: float = (count_fuera_rango_1_x / n_cantidad) * 100
+    else:
+        # Si N es 0, todos los porcentajes son 0
+        porcentaje_menor_x = porcentaje_mayor_x = porcentaje_igual_x = 0.0
+        porcentaje_entre_1_x = porcentaje_no_condicion = 0.0
+
+    # 4. Mostrar resultados
+    print('\n--- Resultados del Análisis ---')
+    print(f'Total de números analizados: {n_cantidad}')
+    print(f'Número de referencia X: {x_valor}')
+    print(f'-----------------------------------')
+    print(f'Porcentaje de números menores que X: {porcentaje_menor_x:.2f}%')
+    print(f'Porcentaje de números mayores que X: {porcentaje_mayor_x:.2f}%')
+    print(f'Porcentaje de números iguales a X: {porcentaje_igual_x:.2f}%')
+    print(f'Porcentaje de números comprendidos entre 1 y X (inclusive): {porcentaje_entre_1_x:.2f}%')
+    print(f'Porcentaje de números que no están entre 1 y X: {porcentaje_no_condicion:.2f}%')
+
+# Ejecutar la función
+analizar_conjunto_numeros()
