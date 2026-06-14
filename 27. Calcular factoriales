@@ -1,0 +1,48 @@
+def calcular_factoriales_comparados():
+    print('--- Comparador de Factoriales ---')
+
+    # --- Tipificación de Variables ---
+    num1: int
+    num2: int
+    fact1: int = 1
+    fact2: int = 1
+    seq1: list[str] = []
+    seq2: list[str] = []
+    max_comun: int
+
+    # 1. Entrada de datos
+    while True:
+        try:
+            num1 = int(input('Ingrese el primer número: '))
+            num2 = int(input('Ingrese el segundo número: '))
+            if num1 >= 0 and num2 >= 0:
+                break
+            print('Por favor, ingrese números enteros no negativos.')
+        except ValueError:
+            print('Error: Ingrese valores numéricos enteros.')
+
+    # 2. Proceso para el primer número
+    for i in range(1, num1 + 1):
+        fact1 *= i
+        seq1.append(str(i))
+    
+    # 3. Proceso para el segundo número
+    for j in range(1, num2 + 1):
+        fact2 *= j
+        seq2.append(str(j))
+
+    # 4. Determinar hasta qué múltiplo son iguales
+    max_comun = min(num1, num2)
+
+    # 5. Salida de resultados
+    print(f'\n{num1}! = {"x".join(seq1) if seq1 else "1"} (Resultado: {fact1})')
+    print(f'{num2}! = {"x".join(seq2) if seq2 else "1"} (Resultado: {fact2})')
+    
+    if num1 == 0 or num2 == 0:
+        print('>> Coinciden en el valor inicial 1 (0! = 1)')
+    else:
+        print(f'>> Son iguales hasta el múltiplo {max_comun}')
+
+# Ejecutar el programa
+if __name__ == "__main__":
+    calcular_factoriales_comparados()
