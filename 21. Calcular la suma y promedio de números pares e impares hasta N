@@ -1,0 +1,46 @@
+# 21. Calcular la suma y promedio de números pares e impares hasta N
+def calcular_suma_promedio_pares_impares():
+    print('--- Suma y Promedio de Pares e Impares ---')
+
+    # 1. Entrada de datos con validación
+    while True:
+        try:
+            n = int(input('Ingrese un número entero positivo (N): '))
+            if n > 0:
+                break
+            else:
+                print('Error: El número debe ser positivo.')
+        except ValueError:
+            print('Error: Ingrese un número entero válido.')
+
+    # Inicializar variables
+    suma_pares = 0
+    conteo_pares = 0
+    suma_impares = 0
+    conteo_impares = 0
+
+    # 2. Proceso: Iterar de 1 a N para clasificar y sumar
+    for i in range(1, n + 1):
+        if i % 2 == 0:  # Es par
+            suma_pares += i
+            conteo_pares += 1
+        else:  # Es impar
+            suma_impares += i
+            conteo_impares += 1
+
+    # Calcular promedios (manejar división por cero)
+    promedio_pares = suma_pares / conteo_pares if conteo_pares > 0 else 0
+    promedio_impares = suma_impares / conteo_impares if conteo_impares > 0 else 0
+
+    # 3. Salida de resultados
+    print(f'\n--- Resultados hasta N = {n} ---')
+    print(f'Suma de números pares: {suma_pares}')
+    print(f'Cantidad de números pares: {conteo_pares}')
+    print(f'Promedio de números pares: {promedio_pares:.2f}')
+    print(f'-----------------------------------')
+    print(f'Suma de números impares: {suma_impares}')
+    print(f'Cantidad de números impares: {conteo_impares}')
+    print(f'Promedio de números impares: {promedio_impares:.2f}')
+
+# Ejecutar la función
+calcular_suma_promedio_pares_impares()
