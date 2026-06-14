@@ -1,0 +1,74 @@
+def analizar_asistentes_fiesta():
+    print('--- Sistema de Registro de Fiesta ---')
+
+    # --- Tipificación de Variables ---
+    total_asistentes: int = 0
+    total_hombres: int = 0
+    total_mujeres: int = 0
+    suma_edad_hombres: int = 0
+    suma_edad_mujeres: int = 0
+    edad_maxima: int = -1
+    edad_minima: int = 999
+    continuar: str = 'si'
+
+    # Variables de entrada por cada registro
+    edad_actual: int
+    sexo_actual: str
+
+    while continuar.lower() == 'si':
+        # 1. Ingreso de datos con validación
+        while True:
+            try:
+                edad_actual = int(input(f'Ingrese la edad del asistente {total_asistentes + 1}: '))
+                if edad_actual >= 0:
+                    break
+                print('Error: La edad no puede ser negativa.')
+            except ValueError:
+                print('Error: Ingrese un número entero para la edad.')
+
+        while True:
+            sexo_actual = input('Ingrese el sexo (H/M): ').strip().upper()
+            if sexo_actual in ['H', 'M']:
+                break
+            print('Error: Ingrese H para hombre o M para mujer.')
+
+        # 2. Procesamiento de datos
+        total_asistentes += 1
+
+        if sexo_actual == 'H':
+            total_hombres += 1
+            suma_edad_hombres += edad_actual
+        else:
+            total_mujeres += 1
+            suma_edad_mujeres += edad_actual
+
+        # Actualizar edad máxima y mínima
+        if edad_actual > edad_maxima:
+            edad_maxima = edad_actual
+        if edad_actual < edad_minima:
+            edad_minima = edad_actual
+
+        # 3. Preguntar si desea registrar a otro
+        continuar = input('¿Desea registrar a otra persona? (si/no): ').strip().lower()
+
+    # 4. Cálculo de promedios
+    promedio_hombres: float = suma_edad_hombres / total_hombres if total_hombres > 0 else 0.0
+    promedio_mujeres: float = suma_edad_mujeres / total_mujeres if total_mujeres > 0 else 0.0
+
+    # 5. Salida de resultados
+    print('\n--- REPORTE FINAL DE LA FIESTA ---')
+    print(f'Total de personas que asistieron: {total_asistentes}')
+    print(f'Cantidad de hombres: {total_hombres}')
+    print(f'Cantidad de mujeres: {total_mujeres}')
+    print(f'Promedio de edad (Hombres): {promedio_hombres:.2f} años')
+    print(f'Promedio de edad (Mujeres): {promedio_mujeres:.2f} años')
+    
+    if total_asistentes > 0:
+        print(f'Edad de la persona de MAYOR edad: {edad_maxima} años')
+        print(f'Edad de la persona de MENOR edad: {edad_minima} años')
+    else:
+        print('No se registraron asistentes.')
+
+# Ejecutar el programa
+if __name__ == "__main__":
+    analizar_asistentes_fiesta()
