@@ -1,0 +1,58 @@
+# 22. Clasificación de Números (Pares, Impares, Positivos, Negativos, Neutros)
+def clasificar_numeros():
+    print('--- Clasificador de 10 Números ---')
+
+    # --- Tipificación de Variables ---
+    # cont_pares: int - Contador de números pares
+    # cont_impares: int - Contador de números impares
+    # cont_positivos: int - Contador de números positivos
+    # cont_negativos: int - Contador de números negativos
+    # cont_neutros: int - Contador de números neutros (ceros)
+    # numero_ingresado: float - El número que el usuario ingresa en cada iteración
+    # i: int - Variable de control del bucle
+
+    # Inicializar contadores
+    cont_pares: int = 0
+    cont_impares: int = 0
+    cont_positivos: int = 0
+    cont_negativos: int = 0
+    cont_neutros: int = 0
+
+    # 1. Pedir 10 números
+    for i in range(1, 11): # Bucle para pedir 10 números (del 1 al 10)
+        while True:
+            try:
+                numero_ingresado: float = float(input(f'Ingrese el número {i} de 10: '))
+                break # Salir del bucle interno si la entrada es válida
+            except ValueError:
+                print('Error: Entrada no válida. Por favor, ingrese un número.')
+
+        # 2. Determinar y contar
+        # Clasificar por signo (positivo, negativo, neutro)
+        if numero_ingresado > 0:
+            cont_positivos += 1
+        elif numero_ingresado < 0:
+            cont_negativos += 1
+        else:
+            cont_neutros += 1 # Es cero
+
+        # Clasificar por par o impar (solo para enteros o números sin parte decimal)
+        # Se asume que la clasificación par/impar aplica a números enteros.
+        # Si el número tiene parte decimal, se considerará la parte entera para la paridad.
+        if numero_ingresado == int(numero_ingresado): # Verificar si es un número entero
+            if numero_ingresado % 2 == 0:
+                cont_pares += 1
+            else:
+                cont_impares += 1
+        # Si no es entero, no se clasifica como par/impar para este problema específico
+
+    # 3. Imprimir resultados
+    print('\n--- Resumen de Números Ingresados ---')
+    print(f'Cantidad de números pares: {cont_pares}')
+    print(f'Cantidad de números impares: {cont_impares}')
+    print(f'Cantidad de números positivos: {cont_positivos}')
+    print(f'Cantidad de números negativos: {cont_negativos}')
+    print(f'Cantidad de números neutros (ceros): {cont_neutros}')
+
+# Ejecutar la función
+clasificar_numeros()
