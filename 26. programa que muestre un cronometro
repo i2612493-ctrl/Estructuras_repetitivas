@@ -1,0 +1,80 @@
+import time
+import threading
+import sys
+
+# --- Variables globales para controlar el cronómetro ---
+stop_flag: bool = False
+
+def input_listener_thread():
+    """
+    Función que escucha por una pulsación de Enter en un hilo separado.
+    Establece la bandera global `stop_flag` a True cuando se detecta Enter.
+    """
+    global stop_flag
+    try:
+        input("") # Espera por un Enter. Es bloqueante, pero en un hilo.
+        stop_flag = True
+    except EOFError: # Manejar el caso de que la entrada sea cerrada
+        pass
+
+def mostrar_cronometro():
+    print('--- Cronómetro Referencial (hh:mm:ss) ---')
+
+    # --- Tipificación de Variables ---
+    horas: int = 0
+    minutos: int = 0
+    segundos: int = 0
+    
+    # Reiniciar la bandera de parada para cada ejecución
+    global stop_flag
+    stop_flag = False
+
+    print("Presiona ENTER para iniciar el cronómetro...")
+    input() # Espera la primera pulsación de Enter para empezar
+
+    start_time: float = time.time() # Registra el tiempo de inicio
+
+    print("Presiona ENTER DE NUEVO para detener el cronómetro.")
+
+    # Iniciar el hilo que escuchará por la segunda pulsación de Enter
+    input_thread: threading.Thread = threading.Thread(target=input_listener_thread)
+    input_thread.daemon = True # Permite que el programa principal se cierre incluso si este hilo sigue activo
+    input_thread.start() # Iniciar el hilo
+
+    try:
+        while not stop_flag:
+            elapsed_time: float = time.time() - start_time
+
+            # Convertir el tiempo transcurrido a hh:mm:ss
+            total_segundos_transcurridos: int = int(elapsed_time)
+            
+            horas = total_segundos_transcurridos // 3600
+            minutos = (total_segundos_transcurridos % 3600) // 60
+            segundos = total_segundos_transcurridos % 60
+
+            # Formatear la salida y mostrar en la misma línea
+            print(f"\r{horas:02d}:{minutos:02d}:{segundos:02d}", end='', flush=True)
+            
+            time.sleep(0.1) # Pequeña pausa para no consumir mucho CPU y permitir actualizaciones visibles
+
+    except KeyboardInterrupt:
+        # Esto se captura si el usuario detiene la celda directamente (Ctrl+C)
+        print("\nCronómetro detenido por interrupción externa.")
+    except Exception as e:
+        print(f"\nOcurrió un error: {e}")
+    finally:
+        # Limpieza: Asegurarse de que el hilo de escucha se detenga si no lo hizo ya
+        if input_thread.is_alive():
+            # No hay una forma segura de "matar" un hilo bloqueado en input()
+            # pero setting `daemon = True` means the main program won't wait for it.
+            pass # El hilo daemon se cerrará con el programa principal.
+        
+        if stop_flag:
+            print("\nCronómetro detenido.")
+        else:
+            # Esto ocurre si salió por KeyboardInterrupt o alguna otra excepción
+            print("\nCronómetro finalizado.")
+
+# Ejecutar el cronómetro
+if __name__ == "__main__":
+    mostrar_cronometro()
