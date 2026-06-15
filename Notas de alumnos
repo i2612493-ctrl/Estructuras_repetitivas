@@ -1,0 +1,91 @@
+def analizar_notas_estudiantes():
+    print('--- Sistema de Análisis de Notas ---')
+
+    # --- Tipificación de Variables ---
+    n_estudiantes: int
+    notas: list[float] = []
+    nota_actual: float
+    
+    mayor_nota: float
+    menor_nota: float
+    cant_mayor: int = 0
+    cant_menor: int = 0
+    
+    suma_notas: float = 0.0
+    promedio: float
+    
+    cant_pares: int = 0
+    cant_impares: int = 0
+    cant_aprobados: int = 0
+    cant_desaprobados: int = 0
+    
+    porcentaje_aprobados: float
+    porcentaje_desaprobados: float
+
+    # 1. Lectura de N (5 a 20)
+    while True:
+        try:
+            n_estudiantes = int(input('Ingrese la cantidad de estudiantes (5-20): '))
+            if 5 <= n_estudiantes <= 20:
+                break
+            print('Error: La cantidad debe estar entre 5 y 20.')
+        except ValueError:
+            print('Error: Ingrese un número entero válido.')
+
+    # 2. Lectura y validación de notas
+    for i in range(1, n_estudiantes + 1):
+        while True:
+            try:
+                nota_actual = float(input(f'Ingrese la nota del estudiante {i} (0-20): '))
+                if 0 <= nota_actual <= 20:
+                    notas.append(nota_actual)
+                    break
+                print('Error: La nota debe estar entre 0 y 20.')
+            except ValueError:
+                print('Error: Ingrese un valor numérico.')
+
+    # 3. Procesamiento de datos
+    mayor_nota = max(notas)
+    menor_nota = min(notas)
+    suma_notas = sum(notas)
+
+    for n in notas:
+        # c) y d) Cantidades de mayor y menor
+        if n == mayor_nota: cant_mayor += 1
+        if n == menor_nota: cant_menor += 1
+        
+        # f) y g) Pares e impares (se asume redondeo o parte entera para la paridad)
+        if int(n) % 2 == 0:
+            cant_pares += 1
+        else:
+            cant_impares += 1
+            
+        # h) e i) Aprobados y desaprobados (Mínima 13)
+        if n >= 13:
+            cant_aprobados += 1
+        else:
+            cant_desaprobados += 1
+
+    # e) Promedio
+    promedio = suma_notas / n_estudiantes
+    
+    # j) y k) Porcentajes
+    porcentaje_aprobados = (cant_aprobados / n_estudiantes) * 100
+    porcentaje_desaprobados = (cant_desaprobados / n_estudiantes) * 100
+
+    # 4. Salida de resultados
+    print('\n--- REPORTE ESTADÍSTICO ---')
+    print(f'a) La mayor nota: {mayor_nota}')
+    print(f'b) La menor nota: {menor_nota}')
+    print(f'c) Cantidad con la mayor nota: {cant_mayor}')
+    print(f'd) Cantidad con la menor nota: {cant_menor}')
+    print(f'e) Promedio de notas del salón: {promedio:.2f}')
+    print(f'f) Cantidad de notas pares (parte entera): {cant_pares}')
+    print(f'g) Cantidad de notas impares (parte entera): {cant_impares}')
+    print(f'h) Cantidad de alumnos aprobados: {cant_aprobados}')
+    print(f'i) Cantidad de alumnos desaprobados: {cant_desaprobados}')
+    print(f'j) Porcentaje de alumnos aprobados: {porcentaje_aprobados:.2f}%')
+    print(f'k) Porcentaje de alumnos desaprobados: {porcentaje_desaprobados:.2f}%')
+
+if __name__ == "__main__":
+    analizar_notas_estudiantes()
