@@ -1,0 +1,25 @@
+def calcular_producto_descendente():
+    print('--- Cálculo de Producto con Arrays (100 x 98 x ... x 2) ---')
+
+    # --- Tipificación de Variables ---
+    # numeros: list[int] - Array para almacenar la secuencia
+    # producto: int - Acumulador para el resultado del producto
+    # num: int - Variable de control para el bucle
+
+    # 1. Crear el array con la secuencia especificada (de 100 a 2, bajando de 2 en 2)
+    # Nota: El rango termina en 2 ya que el siguiente par sería 0, lo cual anularía el producto.
+    numeros: list[int] = list(range(100, 1, -2))
+
+    # 2. Inicializar el producto en 1
+    producto: int = 1
+
+    # 3. Calcular el producto recorriendo el array
+    for num in numeros:
+        producto *= num
+
+    # 4. Mostrar la secuencia y el resultado
+    print(f"Secuencia: {' x '.join(map(str, numeros))}")
+    print(f"\nRESULTADO FINAL: {producto}")
+
+if __name__ == '__main__':
+    calcular_producto_descendente()
